@@ -40,9 +40,15 @@ WebVideo.prototype = (function () {
     /// Record
     function Record() {
         context.navigator.getUserMedia(
-            { audio: true }
+            { audio: true, video:true }
             , function (localMediaStream)
             {
+                var video = document.querySelector('video');
+                video.src = window.URL.createObjectURL(localMediaStream);
+                video.onloadedmetadata = function (e) {
+                    // Ready to go. Do some stuff.
+                };
+
                 context.mediaStream = localMediaStream;
                 var mediaStreamSource = context.WebVideo.createMediaStreamSource(localMediaStream);
                 context.recorder = new Recorder(mediaStreamSource
